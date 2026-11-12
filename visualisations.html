@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="style.css">
   <script src="https://d3js.org/d3.v7.min.js" defer></script>
   <script src="script.js" defer></script>
+  <script src="first-nations-age.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to content</a>
@@ -31,15 +32,37 @@
     </div>
     <div class="container page-content">
       <section aria-labelledby="charts-heading">
-        <h2 id="charts-heading">Research questions and charts</h2>
+        <h2 id="charts-heading">Visualisation Charts</h2>
         <p>
-          Charts will be added here once the research questions are finalised.
-          Each visualisation will include context and a short explanation of its findings.
+          Explore the charts below. Further visualisations will be added as the
+          team's research questions are finalised.
         </p>
         <!-- Add the question sections and their chart containers here. -->
-        <div class="chart-card chart-placeholder">
-          Visualisations coming soon
-        </div>
+        <article class="chart-card" aria-labelledby="age-chart-heading">
+          <h3 id="age-chart-heading">Age distribution of traffic injury hospitalisations</h3>
+          <p class="chart-introduction">
+            Compare First Nations people and Non-Indigenous people for a selected year.
+            Each coloured segment shows an age group's share of that population's
+            recorded hospitalisations. Each complete bar adds to 100%.
+          </p>
+
+          <div class="year-control">
+            <label for="age-year">Year <output id="age-year-value" for="age-year">2011</output></label>
+            <input id="age-year" type="range" min="0" max="9" step="1" value="0" disabled>
+            <div class="year-endpoints"><span>2011</span><span>2021</span></div>
+            <small>2014 is omitted because its records are incomplete.</small>
+          </div>
+
+          <ul id="age-legend" class="age-legend" aria-label="Age groups"></ul>
+          <div id="age-chart" class="stacked-chart">
+            <p class="chart-loading">Loading chart data…</p>
+            <div id="age-tooltip" class="chart-tooltip" role="tooltip" hidden></div>
+          </div>
+          <p id="age-chart-summary" class="chart-summary" role="status"></p>
+          <p id="age-chart-note" class="chart-note">
+            Move the year slider to compare years. Hover over or focus a segment to see its count and percentage.
+          </p>
+        </article>
       </section>
     </div>
   </main>
