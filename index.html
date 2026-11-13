@@ -4,88 +4,42 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Hospitalised Road Crash Injuries | Group 38</title>
+  <title>Home | Road Injury Data</title>
 
   <link rel="stylesheet" href="style.css">
-  <script src="https://d3js.org/d3.v7.min.js" defer></script>
-  <script src="script.js" defer></script>
 </head>
 <body>
-  <header>
-    <div class="container">
-      <p class="eyebrow">COS30045 · Group 38</p>
-      <h1>Hospitalised Road Crash Injuries in Australia</h1>
-      <p>Investigating patterns in hospitalised injuries, 2011–2021.</p>
-
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <header class="site-header">
+    <div class="container nav-inner">
+      <a class="site-name" href="index.html">Road Injury Data<span>Australia · 2011–2021</span></a>
       <nav aria-label="Main navigation">
-        <a href="#overview">Overview</a>
-        <a href="#visualisations">Visualisations</a>
-        <a href="#data">About the data</a>
+        <a href="index.html" aria-current="page">Home</a>
+        <a href="visualisations.html">Visualisations</a>
+        <a href="acknowledgements.html">Acknowledgements</a>
       </nav>
     </div>
   </header>
 
-  <main class="container">
-    <aside class="notice">
-      Work in progress: initial website layout. Content and chart choices
-      will be refined after research and data exploration.
-    </aside>
-
-    <section id="overview">
-      <h2>Understanding the story</h2>
-      <p>
-        This project explores hospitalised injuries from road crashes
-        in Australia using BITRE data.
-      </p>
-      <p class="placeholder">
-        Introduction, target audience and research questions:
-        awaiting the team’s research.
-      </p>
-    </section>
-
-    <section id="visualisations">
-      <h2>Explore the evidence</h2>
-      <p>
-        Visualisations will be developed around the team’s agreed
-        questions and verified findings.
-      </p>
-
-      <article class="chart-card">
-        <h3>Visualisation 1 — proposed national trend</h3>
-        <div id="trend-chart" class="chart-placeholder">
-          D3 chart placeholder — data pending
-        </div>
-        <p>Planned purpose: examine changes over time.</p>
-      </article>
-
-      <article class="chart-card">
-        <h3>Visualisation 2 — proposed group comparison</h3>
-        <div id="comparison-chart" class="chart-placeholder">
-          D3 chart placeholder — data pending
-        </div>
+  <main id="main-content">
+    <div class="page-header">
+      <div class="container">
+        <p class="eyebrow">COS30045 · Group 38</p>
+        <h1>Hospitalised Road Crash Injuries in Australia</h1>
+        <p>Exploring patterns in hospitalised injuries, 2011–2021.</p>
+      </div>
+    </div>
+    <div class="container page-content">
+      <section aria-labelledby="intro-heading">
+        <h2 id="intro-heading">Understanding the data</h2>
         <p>
-          Comparison groups and interactions will be selected
-          after data exploration.
+          This website explores Australian road traffic injury data through
+          five research questions. The visualisations will examine hospitalisations
+          and hospital bed days across time, locations and population groups.
         </p>
-      </article>
-    </section>
-
-    <section id="data">
-      <h2>About the data</h2>
-      <p>
-        Planned primary source: Bureau of Infrastructure and
-        Transport Research Economics (BITRE), hospitalised road
-        crash injury data for 2011–2021.
-      </p>
-      <p>
-        Injury counts describe the recorded burden. Comparisons
-        across populations of different sizes require care;
-        counts alone do not establish individual risk.
-      </p>
-      <a href="https://www.bitre.gov.au/publications/ongoing/hospitalised-injury">
-        View the BITRE data source
-      </a>
-    </section>
+        <a class="button-link" href="visualisations.html">Explore the visualisations</a>
+      </section>
+    </div>
   </main>
 
   <footer>

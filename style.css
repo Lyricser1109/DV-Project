@@ -25,6 +25,9 @@ body {
   font-size: 16px;
   line-height: 1.75;
   -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .container {
@@ -32,21 +35,59 @@ body {
   margin-inline: auto;
 }
 
+/* Navigation */
+
+.site-header {
+  background: var(--surface);
+  border-top: 4px solid var(--accent);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px 32px;
+  padding-block: 20px;
+}
+
+.site-name {
+  color: var(--navy);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.4;
+  text-decoration: none;
+}
+
+.site-name span {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+}
+
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 16px;
+  z-index: 10;
+  padding: 10px 16px;
+  color: white;
+  background: var(--navy);
+}
+
+.skip-link:focus {
+  top: 12px;
+}
+
 /* Opening section */
 
-header {
-  position: relative;
-  overflow: hidden;
-  padding: 64px 0 0;
+.page-header {
+  padding-block: 48px;
   color: white;
-  background:
-    radial-gradient(
-      ellipse at top right,
-      rgba(8, 126, 131, 0.25),
-      transparent 60%
-    ),
-    var(--navy);
-  border-top: 5px solid #25b8b0;
+  background: var(--navy);
 }
 
 .eyebrow {
@@ -67,9 +108,9 @@ h1 {
   letter-spacing: -0.04em;
 }
 
-header .container > p:not(.eyebrow) {
+.page-header .container > p:not(.eyebrow) {
   max-width: 650px;
-  margin-bottom: 36px;
+  margin-bottom: 0;
   color: #c4d5df;
   font-size: 18px;
 }
@@ -77,43 +118,45 @@ header .container > p:not(.eyebrow) {
 nav {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px 36px;
-  padding: 20px 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.18);
+  gap: 6px;
 }
 
 nav a {
-  padding: 4px 0;
-  color: #e1ebf1;
+  padding: 10px 16px;
+  color: var(--muted);
   font-size: 14px;
   font-weight: 600;
   text-decoration: none;
-  border-bottom: 2px solid transparent;
+  border-radius: 6px;
+  transition: background 0.2s, color 0.2s;
 }
 
 nav a:hover {
+  color: var(--accent);
+  background: #edf5f5;
+}
+
+nav a[aria-current="page"] {
   color: white;
-  border-bottom-color: #59d3cb;
+  background: var(--accent);
 }
 
 /* Main content */
 
 main {
-  padding-block: 32px 64px;
+  flex: 1;
 }
 
-.notice {
-  padding: 14px 20px;
-  color: #355969;
-  background: #e6eff2;
-  border: 1px solid #ccdfe5;
-  border-left: 4px solid var(--accent);
-  border-radius: 4px;
-  font-size: 13px;
+.page-content {
+  padding-block: 48px 64px;
 }
 
 section {
   margin-top: 56px;
+}
+
+.page-content > section:first-child {
+  margin-top: 0;
 }
 
 h2 {
@@ -130,15 +173,19 @@ section > p {
   color: var(--muted);
 }
 
-#overview {
-  padding-bottom: 40px;
-  border-bottom: 1px solid var(--border);
+.button-link {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 11px 20px;
+  color: white;
+  background: var(--accent);
+  border-radius: 6px;
+  font-weight: 600;
+  text-decoration: none;
 }
 
-.placeholder {
-  padding-left: 16px;
-  border-left: 2px solid var(--border);
-  font-size: 14px;
+.button-link:hover {
+  background: #086c71;
 }
 
 /* Visualisation panels */
@@ -183,6 +230,147 @@ section > p {
   color: var(--muted);
   border-top: 1px solid #edf1f4;
   font-size: 14px;
+}
+
+/* Age distribution chart */
+
+.chart-card > .chart-introduction {
+  margin: 0 0 24px;
+  padding: 0;
+  border: 0;
+}
+
+.year-control {
+  max-width: 580px;
+  margin-bottom: 24px;
+}
+
+.year-control label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 600;
+}
+
+.year-control output {
+  padding: 2px 12px;
+  color: var(--accent);
+  background: #edf5f5;
+  border-radius: 4px;
+  font-variant-numeric: tabular-nums;
+}
+
+.year-control input {
+  width: 100%;
+  min-height: 32px;
+  margin: 8px 0 0;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.year-control input:focus-visible {
+  outline: 3px solid #db9a24;
+  outline-offset: 4px;
+}
+
+.year-endpoints {
+  display: flex;
+  justify-content: space-between;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.age-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 13px;
+}
+
+.age-legend li {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.age-swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 2px;
+}
+
+.stacked-chart {
+  position: relative;
+  width: 100%;
+  min-height: 290px;
+}
+
+.stacked-chart svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  font-family: inherit;
+}
+
+.age-grid line {
+  stroke: var(--border);
+}
+
+.age-axis {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.age-axis-label,
+.age-population-labels {
+  fill: var(--text);
+  font-size: 13px;
+}
+
+.age-segment:hover,
+.age-segment:focus {
+  stroke: var(--navy);
+  stroke-width: 2;
+  outline: none;
+}
+
+.chart-tooltip {
+  position: absolute;
+  z-index: 2;
+  max-width: min(260px, 100%);
+  padding: 10px 14px;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  box-shadow: 0 4px 16px rgba(16, 44, 64, 0.15);
+  font-size: 12px;
+  white-space: pre-line;
+  pointer-events: none;
+}
+
+.chart-card > .chart-summary {
+  font-weight: 600;
+}
+
+.chart-card > .chart-note {
+  margin-top: 12px;
+  padding-top: 0;
+  border: 0;
+}
+
+.chart-card > .chart-note-warning {
+  padding: 12px 16px;
+  color: #694d16;
+  background: #fff5df;
+  border-left: 3px solid #b17a17;
+}
+
+.chart-card > .chart-source {
+  font-size: 12px;
 }
 
 /* Sources and footer */
@@ -243,16 +431,26 @@ footer p {
     width: calc(100% - 36px);
   }
 
-  header {
-    padding-top: 40px;
+  .page-header {
+    padding-block: 32px;
   }
 
-  header .container > p:not(.eyebrow) {
+  .page-header .container > p:not(.eyebrow) {
     font-size: 16px;
   }
 
   nav {
-    gap: 12px 24px;
+    width: 100%;
+    gap: 4px;
+  }
+
+  nav a {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+
+  .page-content {
+    padding-block: 32px 48px;
   }
 
   section {
@@ -276,5 +474,9 @@ footer p {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  nav a {
+    transition: none;
   }
 }
