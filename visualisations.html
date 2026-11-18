@@ -9,7 +9,7 @@
   <script src="script.js" defer></script>
   <script src="first-nations-age.js" defer></script>
   <script src="q4-state-heatmap.js" defer></script>
-
+  <script src="q1-national-trend.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to content</a>
@@ -41,6 +41,39 @@
         </p>
         <!-- Add the question sections and their chart containers here. -->
         
+        <article class="chart-card" aria-labelledby="q1-chart-heading">
+      <h3 id="q1-chart-heading">
+        National hospitalised road injuries, 2011 to 2021
+      </h3>
+
+      <p class="chart-introduction">
+        Each stack of dashes is one month, or one year in the annual view.
+        Hover over a stack, or focus the chart and use the arrow keys, to read
+        its value and how it compares with the same period a year earlier.
+        Press Play to watch the series build up.
+      </p>
+
+      <div id="q1-chart">
+        <p class="chart-loading">Loading national trend data…</p>
+      </div>
+
+      <p class="chart-summary">
+        Annual hospitalisations rose from 34,033 in 2011 to a peak of 39,866
+        in 2019, dipped to 37,966 in 2020 and recovered to 39,505 in 2021.
+        April 2020 was the lowest month, 32.4% below April 2019.
+      </p>
+
+      <p class="chart-note">
+        Counts are not adjusted for population growth, so they describe the
+        recorded hospitalisation burden rather than the risk per person.
+        Dash counts are rounded, so read exact values from the tooltip.
+      </p>
+
+      <p class="chart-source">
+        Source: BITRE National Hospitalised Injury Data, 2011–2021.
+      </p>
+    </article>
+
             <article class="chart-card" aria-labelledby="state-chart-heading">
       <h3 id="state-chart-heading">
         Hospitalised road injuries across states and territories
