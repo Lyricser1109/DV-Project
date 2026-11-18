@@ -8,6 +8,8 @@
   <script src="https://d3js.org/d3.v7.min.js" defer></script>
   <script src="script.js" defer></script>
   <script src="first-nations-age.js" defer></script>
+  <script src="q4-state-heatmap.js" defer></script>
+
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to content</a>
@@ -38,6 +40,40 @@
           team's research questions are finalised.
         </p>
         <!-- Add the question sections and their chart containers here. -->
+        
+            <article class="chart-card" aria-labelledby="state-chart-heading">
+      <h3 id="state-chart-heading">
+        Hospitalised road injuries across states and territories
+      </h3>
+
+      <p class="chart-introduction">
+        Compare annual hospitalisation counts across eight jurisdictions
+        from 2011 to 2021. Darker cells represent higher counts.
+        Hover over or keyboard-focus a cell to inspect its value.
+      </p>
+
+      <div id="state-heatmap">
+        <p class="chart-loading">Loading state and territory data…</p>
+      </div>
+
+      <p class="chart-summary">
+        Queensland recorded 6,322 hospitalisations in 2011 and 10,447
+        in 2021. Victoria recorded the highest count in 2021, at 11,130.
+      </p>
+
+      <p class="chart-note">
+        Counts describe recorded hospitalisation burden. Population sizes
+        differ across jurisdictions. NSW has a series break from June 2017
+        and Victoria from 2012, so figures across these breaks are not
+        directly comparable.
+      </p>
+
+      <p class="chart-source">
+        Source: BITRE State and Territory Hospitalised Injury Data,
+        2011–2021.
+      </p>
+    </article>
+        
         <article class="chart-card" aria-labelledby="age-chart-heading">
           <h3 id="age-chart-heading">Age distribution of traffic injury hospitalisations</h3>
           <p class="chart-introduction">

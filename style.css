@@ -480,3 +480,55 @@ footer p {
     transition: none;
   }
 }
+
+/* Q4 state and territory heatmap */
+
+.state-chart-scroll {
+  overflow-x: auto;
+}
+
+.state-chart-svg {
+  display: block;
+  width: 100%;
+  min-width: 820px;
+  height: auto;
+  font-family: inherit;
+}
+
+.state-axis,
+.state-value,
+.state-legend-label {
+  font-size: 13px;
+}
+
+.state-legend-label {
+  fill: var(--text);
+}
+
+.state-value {
+  pointer-events: none;
+}
+
+.state-cell:hover,
+.state-cell:focus {
+  stroke: #d47700;
+  stroke-width: 3px;
+  outline: none;
+}
+
+.state-tooltip {
+  position: fixed;
+  z-index: 20;
+  max-width: calc(100vw - 16px);
+  padding: 10px 14px;
+  color: #ffffff;
+  background: #102c40;
+  border-radius: 5px;
+  font-size: 14px;
+  pointer-events: none;
+}
+
+.state-selection {
+  color: var(--muted);
+  font-size: 14px;
+}
