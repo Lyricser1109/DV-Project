@@ -10,6 +10,8 @@
   <script src="first-nations-age.js" defer></script>
   <script src="q4-state-heatmap.js" defer></script>
   <script src="q1-national-trend.js" defer></script>
+  <script src="sex-age-butterfly.js" defer></script>
+  <script src="sex-age-overview.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to content</a>
@@ -112,14 +114,14 @@
           <p class="chart-introduction">
             Compare First Nations people and Non-Indigenous people for a selected year.
             Each coloured segment shows an age group's share of that population's
-            recorded hospitalisations. Each complete bar adds to 100%.
+            recorded hospitalisations. Each bar adds to 100% of the available records.
           </p>
 
           <div class="year-control">
             <label for="age-year">Year <output id="age-year-value" for="age-year">2011</output></label>
-            <input id="age-year" type="range" min="0" max="9" step="1" value="0" disabled>
+            <input id="age-year" type="range" min="0" max="10" step="1" value="0" disabled>
             <div class="year-endpoints"><span>2011</span><span>2021</span></div>
-            <small>2014 is omitted because its records are incomplete.</small>
+            <small>2014 includes the available records; some half-year age-group records are missing.</small>
           </div>
 
           <ul id="age-legend" class="age-legend" aria-label="Age groups"></ul>
@@ -130,6 +132,29 @@
           <p id="age-chart-summary" class="chart-summary" role="status"></p>
           <p id="age-chart-note" class="chart-note">
             Move the year slider to compare years. Hover over or focus a segment to see its count and percentage.
+          </p>
+        </article>
+        <article class="chart-card" aria-labelledby="sex-age-heading">
+          <h3 id="sex-age-heading">How do males and females compare across age groups?</h3>
+          <p class="chart-introduction">
+            Compare recorded traffic injury hospitalisations across 2011–2021 combined.
+            Male counts extend to the left and female counts to the right, using the same scale.
+            Age groups appear in the centre. Hover over or focus a bar for its count
+            and percentage of the combined total across both sexes and all displayed age groups.
+          </p>
+          <div class="sex-overview" role="group" aria-labelledby="sex-overview-heading">
+            <div id="sex-overview-chart" class="sex-overview-chart">
+              <p class="chart-loading">Loading overall totals…</p>
+              <div id="sex-overview-tooltip" class="chart-tooltip" role="tooltip" hidden></div>
+            </div>
+          </div>
+          <div id="sex-age-chart" class="butterfly-chart">
+            <p class="chart-loading">Loading age and sex data…</p>
+            <div id="sex-age-tooltip" class="chart-tooltip" role="tooltip" hidden></div>
+          </div>
+          <p id="sex-age-summary" class="chart-summary" role="status"></p>
+          <p id="sex-age-note" class="chart-note">
+            Counts describe recorded hospitalisations rather than population injury rates.
           </p>
         </article>
       </section>
