@@ -12,8 +12,8 @@
   <script src="first-nations-age.js" defer></script>
   <script src="q4-state-heatmap.js" defer></script>
   <script src="q1-national-trend.js" defer></script>
-  <script src="sex-age-butterfly.js" defer></script>
-  <script src="sex-age-overview.js" defer></script>
+  <script src="q3-butterfly.js" defer></script>
+  <script src="q3-overview.js" defer></script>
 
 </head>
 <body>
@@ -51,7 +51,7 @@
         <nav class="question-jumps" aria-label="Jump to a research question">
           <a href="#q1">Q1 &#183; National trend</a>
           <a href="#q2">Q2 &#183; Road users</a>
-          <span class="question-jump-pending" role="link" aria-disabled="true">Q3 &#183; Age &amp; sex<small>Coming soon</small></span>
+          <a href="#q3">Q3 &#183; Age &amp; sex</a>
           <a href="#q4">Q4 &#183; Jurisdictions</a>
           <a href="#q5">Q5 &#183; First Nations</a>
         </nav>
@@ -132,6 +132,30 @@
         </article>
 
 
+        <article id="q3" class="chart-card" aria-labelledby="sex-age-heading" tabindex="-1">
+          <h3 id="sex-age-heading">Q3 &#8212; How do males and females compare across age groups?</h3>
+          <p class="chart-introduction">
+            Compare recorded traffic injury hospitalisations across 2011–2021 combined.
+            Male counts extend to the left and female counts to the right, using the same scale.
+            Age groups appear in the centre. Hover over or focus a bar for its count
+            and percentage of the combined total across both sexes and all displayed age groups.
+          </p>
+          <div class="sex-overview" role="group" aria-labelledby="sex-overview-heading">
+            <div id="sex-overview-chart" class="sex-overview-chart">
+              <p class="chart-loading">Loading overall totals…</p>
+              <div id="sex-overview-tooltip" class="chart-tooltip" role="tooltip" hidden></div>
+            </div>
+          </div>
+          <div id="sex-age-chart" class="butterfly-chart">
+            <p class="chart-loading">Loading age and sex data…</p>
+            <div id="sex-age-tooltip" class="chart-tooltip" role="tooltip" hidden></div>
+          </div>
+          <p id="sex-age-summary" class="chart-summary" role="status"></p>
+          <p id="sex-age-note" class="chart-note">
+            Counts describe recorded hospitalisations rather than population injury rates.
+          </p>
+        </article>
+
         <article id="q4" class="chart-card" aria-labelledby="state-chart-heading" tabindex="-1">
       <h3 id="state-chart-heading">
         Q4 &#8212; Hospitalised road injuries across states and territories
@@ -188,29 +212,6 @@
           <p id="age-chart-summary" class="chart-summary" role="status"></p>
           <p id="age-chart-note" class="chart-note">
             Move the year slider to compare years. Hover over or focus a segment to see its count and percentage.
-          </p>
-        </article>
-        <article class="chart-card" aria-labelledby="sex-age-heading">
-          <h3 id="sex-age-heading">How do males and females compare across age groups?</h3>
-          <p class="chart-introduction">
-            Compare recorded traffic injury hospitalisations across 2011–2021 combined.
-            Male counts extend to the left and female counts to the right, using the same scale.
-            Age groups appear in the centre. Hover over or focus a bar for its count
-            and percentage of the combined total across both sexes and all displayed age groups.
-          </p>
-          <div class="sex-overview" role="group" aria-labelledby="sex-overview-heading">
-            <div id="sex-overview-chart" class="sex-overview-chart">
-              <p class="chart-loading">Loading overall totals…</p>
-              <div id="sex-overview-tooltip" class="chart-tooltip" role="tooltip" hidden></div>
-            </div>
-          </div>
-          <div id="sex-age-chart" class="butterfly-chart">
-            <p class="chart-loading">Loading age and sex data…</p>
-            <div id="sex-age-tooltip" class="chart-tooltip" role="tooltip" hidden></div>
-          </div>
-          <p id="sex-age-summary" class="chart-summary" role="status"></p>
-          <p id="sex-age-note" class="chart-note">
-            Counts describe recorded hospitalisations rather than population injury rates.
           </p>
         </article>
       </section>

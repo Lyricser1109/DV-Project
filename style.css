@@ -123,6 +123,8 @@ nav {
 
 nav a,
 .nav-dropdown-toggle {
+  --nav-link-inset: 16px;
+  position: relative;
   display: inline-block;
   padding: 10px 16px;
   color: var(--muted);
@@ -131,7 +133,6 @@ nav a,
   font-weight: 600;
   line-height: inherit;
   text-decoration: none;
-  text-underline-offset: 6px;
   background: transparent;
   border: 0;
   cursor: pointer;
@@ -140,16 +141,37 @@ nav a,
 nav a:hover,
 .nav-dropdown-toggle:hover {
   color: var(--accent);
-  text-decoration: underline;
-  text-decoration-thickness: 2px;
 }
 
 nav a[aria-current="page"],
 nav a[aria-current="location"],
 .nav-dropdown-toggle[data-current-section="true"] {
   color: var(--accent);
-  text-decoration: underline;
-  text-decoration-thickness: 2px;
+}
+
+nav a::before,
+.nav-dropdown-toggle::before {
+  position: absolute;
+  right: var(--nav-link-inset);
+  bottom: 7px;
+  left: var(--nav-link-inset);
+  height: 2px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 220ms ease;
+  pointer-events: none;
+  content: "";
+}
+
+nav a:hover::before,
+nav a:focus-visible::before,
+nav a[aria-current="page"]::before,
+nav a[aria-current="location"]::before,
+.nav-dropdown-toggle:hover::before,
+.nav-dropdown-toggle:focus-visible::before,
+.nav-dropdown-toggle[data-current-section="true"]::before {
+  transform: scaleX(1);
 }
 
 .nav-dropdown {
@@ -187,6 +209,7 @@ nav a[aria-current="location"],
 }
 
 .nav-dropdown-panel a {
+  --nav-link-inset: 12px;
   display: block;
   padding: 10px 12px;
   white-space: nowrap;
@@ -311,6 +334,72 @@ section > p {
 
 .documentation-table td {
   color: var(--muted);
+}
+
+/* Data processing overview and workflow screenshots */
+
+.processing-content {
+  max-width: 1000px;
+}
+
+.processing-overview h1 {
+  margin-bottom: 24px;
+  font-size: clamp(1.6rem, 3vw, 2rem);
+  font-weight: 650;
+  line-height: 1.25;
+  letter-spacing: -0.025em;
+}
+
+.processing-figure {
+  margin: 28px 0;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--surface);
+}
+
+.processing-image-link {
+  display: block;
+}
+
+.processing-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.processing-figure figcaption {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 10px 24px;
+  padding: 14px 16px;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.processing-figure figcaption span {
+  max-width: 560px;
+}
+
+.processing-output-heading {
+  font-size: 20px;
+}
+
+.processing-output-list code {
+  overflow-wrap: anywhere;
+  font-size: 0.9em;
+}
+
+.processing-question h3 {
+  margin: 32px 0 14px;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.processing-question h3 + .processing-figure {
+  margin-top: 14px;
 }
 
 /* Visualisation panels */
@@ -703,6 +792,7 @@ footer p {
 
   nav a,
   .nav-dropdown-toggle {
+    --nav-link-inset: 12px;
     padding: 10px 12px;
     font-size: 13px;
   }
@@ -734,7 +824,8 @@ footer p {
     scroll-behavior: auto;
   }
 
-  nav a {
+  nav a::before,
+  .nav-dropdown-toggle::before {
     transition: none;
   }
 }
@@ -819,7 +910,7 @@ footer p {
 .question-jumps a:hover { color: white; background: var(--accent); }
 .question-jump-pending { color: var(--muted); background: #f3f5f7; }
 .question-jump-pending small { margin-top: 3px; font-size: 11px; font-weight: 400; }
-#q1, #q2, #q4, #q5 { scroll-margin-top: 24px; }
+#q1, #q2, #q3, #q4, #q5 { scroll-margin-top: 24px; }
 #q1:target, #q2:target, #q4:target, #q5:target { border-color: var(--accent); }
 #q1:focus-visible, #q2:focus-visible, #q4:focus-visible, #q5:focus-visible { outline: 3px solid #db9a24; }
 .q2-legend {
