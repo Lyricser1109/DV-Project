@@ -122,6 +122,10 @@
       const reducedMotion = window.matchMedia(
         "(prefers-reduced-motion: reduce)"
       );
+      const animationTiming = {
+        monthly: { interval: 100, duration: 240 },
+        annual: { interval: 550, duration: 400 }
+      };
 
       container.selectAll("*").remove();
 
@@ -258,12 +262,12 @@
       const clearSelection = () => {
         state.selected = null;
         hideTooltip();
-        marker.attr("visibility", "hidden");
+        marker.interrupt("q1-marker").attr("visibility", "hidden");
         selection.text(defaultMessage);
         refresh();
       };
 
-      const select = index => {
+      const select = (index, animate = false) => {
         const mode = current();
 
         if (index < 0 || index > state.limit) return;
@@ -274,8 +278,16 @@
         const xCentre = centres[index];
         const columnTop = baseline - stackHeight(dashCount(mode.items[index], mode));
 
-        marker
-          .attr("visibility", "visible")
+        const moveMarker = animate && !reducedMotion.matches &&
+          marker.attr("visibility") === "visible";
+        marker.interrupt("q1-marker");
+        const markerPosition = moveMarker
+          ? marker.transition("q1-marker")
+            .duration(Math.min(animationTiming[state.mode].interval, 180))
+            .ease(d3.easeLinear)
+          : marker;
+        marker.attr("visibility", "visible");
+        markerPosition
           .attr("x1", xCentre)
           .attr("x2", xCentre);
 
@@ -284,7 +296,11 @@
           `${formatCount(running)}.`
         );
 
-        tooltip.text(lines.join("\n")).property("hidden", false);
+        const moveTooltip = animate && !reducedMotion.matches && !tooltip.property("hidden");
+        tooltip
+          .style("transition", moveTooltip ? "left 140ms linear, top 140ms linear" : "none")
+          .text(lines.join("\n"))
+          .property("hidden", false);
 
         const svgBounds = svg.node().getBoundingClientRect();
         const wrapBounds = wrap.node().getBoundingClientRect();
@@ -299,33 +315,52 @@
 
         tooltip.style("left", `${left}px`).style("top", `${top}px`);
 
-        refresh();
+        refresh(animate);
       };
 
       // Update the parts that change when the selection or reveal limit moves.
-      function refresh() {
+      function refresh(animate = false, force = false) {
         const mode = current();
+        const duration = animate && !reducedMotion.matches
+          ? animationTiming[state.mode].duration : 0;
 
+        // Only animate columns whose reveal state changed. Hovering leaves ongoing
+        // growth alone, and each new playback column can grow independently.
+        const changedColumns = columns.filter(function (item, index) {
+          return force || this.getAttribute("data-revealed") !== String(index <= state.limit);
+        });
+        changedColumns
+          .interrupt("q1-reveal")
+          .attr("data-revealed", item => String(mode.items.indexOf(item) <= state.limit));
+        const columnPositions = duration
+          ? changedColumns.transition("q1-reveal").duration(duration).ease(d3.easeCubicOut)
+          : changedColumns;
+
+        columnPositions
+          .attr("y2", item => mode.items.indexOf(item) <= state.limit
+            ? baseline - stackHeight(dashCount(item, mode)) : baseline)
+          .attr("stroke-opacity", item => mode.items.indexOf(item) <= state.limit ? 1 : 0);
         columns
-          .attr("y2", (item, index) =>
-            index <= state.limit
-              ? baseline - stackHeight(dashCount(item, mode))
-              : baseline
-          )
-          .attr("stroke-opacity", (item, index) =>
-            index <= state.limit ? 1 : 0
-          )
           .classed("q1-dash-active", (item, index) => index === state.selected);
 
+        const arcVisible = arc => state.arcs && arc.index <= state.limit;
+        const changedArcs = arcPaths.filter(function (arc) {
+          return force || this.getAttribute("data-revealed") !== String(arcVisible(arc));
+        });
+        changedArcs.interrupt("q1-reveal")
+          .attr("data-revealed", arc => String(arcVisible(arc)));
+        const arcOpacity = duration
+          ? changedArcs.transition("q1-reveal").duration(duration).ease(d3.easeCubicInOut)
+          : changedArcs;
+        arcOpacity
+          .attr("opacity", arc => arcVisible(arc) ? 1 : 0)
+          .attr("stroke-dashoffset", arc => arcVisible(arc) ? 0 : 1);
+        const activeArc = arc => state.selected !== null &&
+          (arc.index === state.selected || arc.index - mode.step === state.selected);
         arcPaths
-          .attr("visibility", (arc) =>
-            state.arcs && arc.index <= state.limit ? "visible" : "hidden"
-          )
-          .classed("q1-arc-active", arc =>
-            state.selected !== null &&
-            (arc.index === state.selected ||
-              arc.index - mode.step === state.selected)
-          );
+          .classed("q1-arc-active", activeArc)
+          .classed("q1-arc-muted", arc => state.selected !== null && !activeArc(arc));
+        arcPaths.filter(activeArc).raise();
 
         sliderOutput.text(mode.items[state.limit].label);
         slider.property("value", state.limit);
@@ -340,13 +375,16 @@
         playButton.text("Play");
       };
 
-      const build = () => {
+      const build = (animate = false) => {
         const mode = current();
         const items = mode.items;
         const count = items.length;
         const monthly = state.mode === "monthly";
 
-        plot.selectAll("*").remove();
+        plot.selectAll("*")
+          .interrupt("q1-reveal")
+          .interrupt("q1-marker")
+          .remove();
 
         xScale = d3.scaleBand()
           .domain(d3.range(count))
@@ -418,6 +456,8 @@
           .attr("x2", (item, i) => centres[i])
           .attr("y1", baseline)
           .attr("y2", baseline)
+          .attr("stroke-opacity", 0)
+          .attr("data-revealed", "false")
           .attr("stroke-width", xScale.bandwidth())
           .attr("stroke-dasharray", `${dashLength} ${dashStep - dashLength}`)
           .attr("aria-hidden", "true");
@@ -460,6 +500,7 @@
           .range([2, 90]);
 
         arcPaths = plot.append("g")
+          .attr("class", "q1-arcs")
           .attr("aria-hidden", "true")
           .selectAll("path")
           .data(arcData)
@@ -467,6 +508,12 @@
           .attr("class", arc =>
             `q1-arc ${arc.lower ? "q1-arc-down" : "q1-arc-up"}`
           )
+          .attr("opacity", 0)
+          .attr("data-revealed", "false")
+          // Normalised path lengths let every arc draw smoothly from end to end.
+          .attr("pathLength", 1)
+          .attr("stroke-dasharray", "1 1")
+          .attr("stroke-dashoffset", 1)
           .attr("d", arc => {
             // A quadratic curve peaks at half its control-point depth.
             const depth = 2 * arcHeight(Math.abs(arc.change));
@@ -509,7 +556,7 @@
         );
 
         marker.attr("visibility", "hidden");
-        refresh();
+        refresh(animate);
       };
 
       const setMode = key => {
@@ -521,7 +568,7 @@
         state.selected = null;
         hideTooltip();
         selection.text(defaultMessage);
-        build();
+        build(true);
       };
 
       const play = () => {
@@ -539,16 +586,29 @@
           return;
         }
 
-        if (state.limit >= last) state.limit = -1;
+        if (state.limit >= last) {
+          state.limit = 0;
+          columns.interrupt("q1-reveal")
+            .attr("data-revealed", "false")
+            .attr("y2", baseline)
+            .attr("stroke-opacity", 0);
+          arcPaths.interrupt("q1-reveal")
+            .attr("data-revealed", "false")
+            .attr("opacity", 0)
+            .attr("stroke-dashoffset", 1);
+          marker.interrupt("q1-marker").attr("visibility", "hidden");
+          hideTooltip();
+        }
 
         playButton.text("Pause");
+        select(state.limit, true);
 
         state.timer = window.setInterval(() => {
           state.limit += 1;
-          select(state.limit);
+          select(state.limit, true);
 
           if (state.limit >= last) stop();
-        }, state.mode === "monthly" ? 70 : 450);
+        }, animationTiming[state.mode].interval);
       };
 
       modeButtons.on("click", (event, option) => setMode(option.key));
@@ -556,13 +616,13 @@
 
       arcCheckbox.on("change", event => {
         state.arcs = event.currentTarget.checked;
-        refresh();
+        refresh(true);
       });
 
       slider.on("input", event => {
         stop();
         state.limit = Number(event.currentTarget.value);
-        select(state.limit);
+        select(state.limit, true);
       });
 
       svg.on("mouseleave", clearSelection);
@@ -589,6 +649,16 @@
 
       window.addEventListener("scroll", hideTooltip, true);
       window.addEventListener("resize", hideTooltip);
+      reducedMotion.addEventListener("change", () => {
+        if (!reducedMotion.matches) return;
+        stop();
+        marker.interrupt("q1-marker");
+        tooltip.style("transition", "none");
+        refresh(false, true);
+        if (state.selected !== null) {
+          marker.attr("x1", centres[state.selected]).attr("x2", centres[state.selected]);
+        }
+      });
 
       selection.text(defaultMessage);
       build();

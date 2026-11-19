@@ -7,6 +7,7 @@
   <title>Home | Road Injury Data</title>
 
   <link rel="stylesheet" href="style.css">
+  <script src="navigation.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to content</a>
@@ -16,7 +17,13 @@
       <nav aria-label="Main navigation">
         <a href="index.html" aria-current="page">Home</a>
         <a href="visualisations.html">Visualisations</a>
-        <a href="acknowledgements.html">Acknowledgements</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle" type="button" aria-expanded="false" aria-controls="documentation-menu">Acknowledgements</button>
+          <div id="documentation-menu" class="nav-dropdown-panel" hidden>
+            <a href="acknowledgements.html">Acknowledgements</a>
+            <a href="data-processing.html">Data processing</a>
+          </div>
+        </div>
       </nav>
     </div>
   </header>

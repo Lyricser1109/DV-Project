@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Processing | Road Injury Data</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="navigation.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <header class="site-header">
+    <div class="container nav-inner">
+      <a class="site-name" href="index.html">Road Injury Data<span>Australia · 2011–2021</span></a>
+      <nav aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="visualisations.html">Visualisations</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle" type="button" data-current-section="true" aria-expanded="false" aria-controls="documentation-menu">Acknowledgements</button>
+          <div id="documentation-menu" class="nav-dropdown-panel" hidden>
+            <a href="acknowledgements.html">Acknowledgements</a>
+            <a href="data-processing.html" aria-current="page">Data processing</a>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <div id="processing-content" class="container page-content documentation-content processing-content">
+      <section class="processing-overview" aria-labelledby="processing-heading">
+        <h1 id="processing-heading">Tools used for data processing</h1>
+        <p>
+          KNIME Analytics Platform was used to prepare the source Excel workbooks.
+          The overall workflow has three cleaning branches: national traffic injuries,
+          state and territory data, and First Nations age-group data. Each branch
+          ends with a CSV Writer node that exports a cleaned dataset.
+        </p>
+        <p>
+          Excel Reader imports the tables. Column Filter, Missing Value and
+          Duplicate Row Filter select the required fields, handle blank values
+          and check repeated rows. Conversion and renaming nodes standardise
+          the data, while Row Filter selects the required records. In the national
+          branch, Math Formula calculates hospitalisations as total cases minus
+          recorded deaths in care.
+        </p>
+
+        <figure class="processing-figure">
+          <a class="processing-image-link" href="images/processing/overall-process.png" target="_blank" rel="noopener">
+            <img src="images/processing/overall-process.png"
+              alt="KNIME workflow with three Excel Reader branches leading to national, state and First Nations CSV Writer outputs."
+              width="1438" height="997" decoding="async">
+          </a>
+          <figcaption>
+            <span>Overall preparation workflow. The three CSV Writer nodes produce the cleaned data for later question-specific processing.</span>
+            <a href="images/processing/overall-process.png" target="_blank" rel="noopener">Open full-size image (new tab)</a>
+          </figcaption>
+        </figure>
+
+        <h2 class="processing-output-heading">Cleaned CSV outputs</h2>
+        <ul class="documentation-list processing-output-list">
+          <li>
+            <strong>National traffic injuries:</strong> <code>cleaned_national_traffic.xlsx.csv</code>.
+            Text is tidied, traffic records and years 2011–2021 are retained,
+            and the derived hospitalisation measure is included. Blank
+            <code>Died_cases</code> and <code>Died_bed_days</code> fields are filled with zero.
+          </li>
+          <li>
+            <strong>States and territories:</strong> <code>cleaned_state_traffic.xlsx.csv</code>.
+            The state table is selected, title and empty rows are removed,
+            year values are converted to numbers, and column names are standardised.
+          </li>
+          <li>
+            <strong>First Nations age groups:</strong> <code>cleaned_first_nations_age.xlsx.csv</code>.
+            The age-group table is selected, title and empty rows are removed,
+            and four rows marked <code>n.p.</code> (not published) are filtered out
+            before count values are converted to numbers. Unpublished values are not set to zero.
+          </li>
+        </ul>
+      </section>
+
+      <section id="processing-q5" class="processing-question" aria-labelledby="q5-processing-heading">
+        <h2 id="q5-processing-heading">Q5 — First Nations and Non-Indigenous hospitalisations</h2>
+        <p>
+          How do hospitalisations compare between First Nations and Non-Indigenous people by age and over time?
+        </p>
+
+        <figure class="processing-figure">
+          <a class="processing-image-link" href="images/processing/q5-workflow.png" target="_blank" rel="noopener">
+            <img src="images/processing/q5-workflow.png"
+              alt="Q5 KNIME workflow with separate filtering and pivot branches for the First Nations and Non-Indigenous stacked bar charts."
+              width="1710" height="393" loading="lazy" decoding="async">
+          </a>
+          <figcaption>
+            <span>Q5 processing workflow for the two bar charts.</span>
+            <a href="images/processing/q5-workflow.png" target="_blank" rel="noopener">Open full-size image (new tab)</a>
+          </figcaption>
+        </figure>
+
+        <h3>First Nations people</h3>
+        <figure class="processing-figure">
+          <a class="processing-image-link" href="images/processing/q5-first-nations.png" target="_blank" rel="noopener">
+            <img src="images/processing/q5-first-nations.png"
+              alt="KNIME stacked bar chart showing the age-group shares of First Nations hospitalisations by year, with 2014 omitted."
+              width="1343" height="316" loading="lazy" decoding="async">
+          </a>
+          <figcaption>
+            <span>First Nations age-group distribution. This KNIME export omits 2014.</span>
+            <a href="images/processing/q5-first-nations.png" target="_blank" rel="noopener">Open full-size image (new tab)</a>
+          </figcaption>
+        </figure>
+
+        <h3>Non-Indigenous people</h3>
+        <figure class="processing-figure">
+          <a class="processing-image-link" href="images/processing/q5-non-indigenous.png" target="_blank" rel="noopener">
+            <img src="images/processing/q5-non-indigenous.png"
+              alt="KNIME stacked bar chart showing the age-group shares of Non-Indigenous hospitalisations by year, with 2014 omitted."
+              width="1367" height="322" loading="lazy" decoding="async">
+          </a>
+          <figcaption>
+            <span>Non-Indigenous age-group distribution. This KNIME export omits 2014.</span>
+            <a href="images/processing/q5-non-indigenous.png" target="_blank" rel="noopener">Open full-size image (new tab)</a>
+          </figcaption>
+        </figure>
+        <!-- Other research question workflows will be added when their screenshots are supplied. -->
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>Group 38 · Daheer, Leroy and Balqis</p>
+      <p>COS30045 Data Visualisation · Semester 2, 2026</p>
+    </div>
+  </footer>
+</body>
+</html>

@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Acknowledgements | Road Injury Data</title>
   <link rel="stylesheet" href="style.css">
+  <script src="navigation.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main-content">Skip to content</a>
@@ -14,57 +15,107 @@
       <nav aria-label="Main navigation">
         <a href="index.html">Home</a>
         <a href="visualisations.html">Visualisations</a>
-        <a href="acknowledgements.html" aria-current="page">Acknowledgements</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle" type="button" data-current-section="true" aria-expanded="false" aria-controls="documentation-menu">Acknowledgements</button>
+          <div id="documentation-menu" class="nav-dropdown-panel" hidden>
+            <a href="acknowledgements.html" aria-current="page">Acknowledgements</a>
+            <a href="data-processing.html">Data processing</a>
+          </div>
+        </div>
       </nav>
     </div>
   </header>
 
   <main id="main-content">
-    <div class="page-header">
+    <div class="page-header documentation-header">
       <div class="container">
-        <p class="eyebrow">Sources and contributors</p>
+        <p class="eyebrow">Sources, context and contributors</p>
         <h1>Acknowledgements</h1>
-        <p>Recognising the data providers, project team and people who use this website.</p>
+        <p>Where the data comes from, what it covers and what to consider when reading the charts.</p>
       </div>
     </div>
-    <div class="container page-content">
+    <div class="container page-content documentation-content">
       <section id="data" aria-labelledby="data-heading">
-        <h2 id="data-heading">About the data</h2>
+        <h2 id="data-heading">Data sources</h2>
         <p>
-          The project's stated primary source is the Bureau of Infrastructure
-          and Transport Research Economics (BITRE), hospitalised road crash
-          injury data for 2011–2021.
+          This project uses cleaned extracts of the national, state and territory,
+          and First Nations hospitalised road injury datasets published through the
+          Bureau of Infrastructure and Transport Research Economics (BITRE) and
+          the Road Safety Data Hub. The underlying hospital data is sourced from
+          the Australian Institute of Health and Welfare (AIHW).
         </p>
         <p>
-          The supplied cleaned datasets cover national traffic injuries,
-          state and territory totals, and age groups by Indigenous status.
-          Measures include hospitalisations and hospital bed days.
+          The <a href="https://www.bitre.gov.au/resource/road-safety/hospitalised-injury">BITRE Hospitalised Injury publication</a>
+          provides the three workbooks. The
+          <a href="https://datahub.roadsafety.gov.au/sites/default/files/documents/Hospitalised%20Injury%20Data%20Dictionary%20September%202023.pdf">September 2023 data dictionary (PDF)</a>
+          explains their definitions and reporting notes.
         </p>
+
+        <p>This link provides information about the <a href="https://www.abs.gov.au/statistics/standards/australian-statistical-geography-standard-asgs/edition-3-july-2021-june-2026/remoteness-structure/remoteness-areas">ABS Remoteness Areas</a> in what categories they are and how the areas are categorized.</p>
+      </section>
+
+      <section id="coverage" aria-labelledby="coverage-heading">
+        <h2 id="coverage-heading">Data coverage</h2>
         <p>
-          Injury counts describe the recorded burden. Counts alone do not
-          establish individual risk when comparing populations of different sizes.
-          Full dataset references and processing details will be added as the
-          team's documentation is finalised.
+          The supplied datasets cover Australian road traffic injuries from
+          <strong>2011 to 2021</strong>. They describe hospital records, rather
+          than every road crash or injury in the community.
         </p>
-        <a href="https://www.bitre.gov.au/publications/ongoing/hospitalised-injury">View the BITRE data source</a>
+        <div class="documentation-table-scroll" role="region" aria-label="Dataset coverage table" tabindex="0">
+          <table class="documentation-table">
+            <caption>Coverage of the supplied cleaned datasets</caption>
+            <thead>
+              <tr><th scope="col">Dataset</th><th scope="col">Time detail</th><th scope="col">Groups and measures</th></tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row">National traffic injuries</th><td>Monthly records</td><td>Age, sex, road user and remoteness; cases, recorded deaths, hospitalisations and bed days.</td></tr>
+              <tr><th scope="row">States and territories</th><td>Half-yearly source records; annual chart totals</td><td>ACT, NSW, NT, Queensland, South Australia, Tasmania, Victoria and Western Australia; hospitalisations and bed days.</td></tr>
+              <tr><th scope="row">First Nations age comparison</th><td>Half-yearly records</td><td>First Nations people and Non-Indigenous people across six age groups; hospitalisations and bed days.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="measures" aria-labelledby="measures-heading">
+        <h2 id="measures-heading">Understanding the measures</h2>
+        <ul class="documentation-list">
+          <li><strong>Overall cases:</strong> the national dataset's total case count, including recorded deaths in care.</li>
+          <li><strong>Hospitalisations:</strong> the national chart files use total cases minus recorded deaths. Other charts use the hospitalisation counts supplied in their cleaned files.</li>
+          <li><strong>Recorded deaths in care:</strong> the source defines this as deaths during hospital care within 30 days of admission. This measure is not a count of every road death.</li>
+          <li><strong>Bed days:</strong> recorded days of hospital care, a separate measure from the number of cases.</li>
+        </ul>
+      </section>
+
+      <section id="limitations" aria-labelledby="limitations-heading">
+        <h2 id="limitations-heading">Limitations</h2>
+        <ul class="documentation-list">
+          <li><strong>Counts and risk:</strong> population sizes differ between groups. Counts and shares of hospitalisations do not establish injury risk per person.</li>
+          <li><strong>Partial 2014 records:</strong> the cleaned First Nations dataset is missing July–December entries for ages 0–7 and 65+ in both populations. Its 2014 bars use the available records and represent a partial comparison.</li>
+          <li><strong>Unknown categories:</strong> the male/female age comparison excludes 16 hospitalisations with unknown age or sex. The overall cases and mortality strip includes all available categories.</li>
+          <li><strong>Reporting changes:</strong> Victoria's series changes from 2012, and NSW's from June 2017. Comparisons across these breaks require care, as described in the source data dictionary.</li>
+          <li><strong>Different age bands:</strong> the First Nations file groups older ages as 65+, while the national file separates 65–74 and 75+. These categories cannot be compared directly without regrouping.</li>
+          <li><strong>Vague labelling:</strong> the methodology used to measure the remoteness of an area is not clearly defined and needed an external website source to clarify which area classified as which.</li>
+        </ul>
+        <p>
+          The website uses grouped counts without names or contact details.
+          Group comparisons should be interpreted respectfully and in context;
+          the charts do not explain why differences occur.
+        </p>
       </section>
 
       <section aria-labelledby="team-heading">
-        <h2 id="team-heading">Project team</h2>
+        <h2 id="team-heading">Acknowledgements</h2>
         <p>Created by Daheer, Leroy and Balqis, Group 38, for COS30045 Data Visualisation.</p>
-      </section>
-
-      <section aria-labelledby="users-heading">
-        <h2 id="users-heading">To our website users</h2>
         <p>
-          Thank you for taking the time to explore the data. We welcome feedback
-          on the clarity of the charts, explanations and experience of using the website.
+          We acknowledge BITRE, the Road Safety Data Hub and AIHW for making the
+          source data and documentation available. Thank you to the people who
+          explore this website and provide feedback on its clarity and usability.
         </p>
       </section>
 
       <section aria-labelledby="ai-heading">
-        <h2 id="ai-heading">AI assistance</h2>
-        <p>OpenAI ChatGPT assisted with website code and draft wording.</p>
+        <h2 id="ai-heading">AI assistance declaration</h2>
+        <p>OpenAI ChatGPT was used to assist with website code and draft wording.</p>
       </section>
     </div>
   </main>

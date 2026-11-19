@@ -2,6 +2,7 @@
 const loadFirstNationsAgeChart = () => {
     const chart = d3.select("#age-chart");
     const slider = d3.select("#age-year");
+    const yearControl = d3.select(slider.node().closest(".year-control"));
     const yearOutput = d3.select("#age-year-value");
     const summary = d3.select("#age-chart-summary");
     const note = d3.select("#age-chart-note");
@@ -31,9 +32,8 @@ const loadFirstNationsAgeChart = () => {
             throw new Error("The chart CSV contains missing or unexpected values.");
         }
 
-        // Keep 2014 in the source CSV, but omit it from this chart's year choices.
+        // Include every year in the CSV, including years with partial records.
         const years = Array.from(new Set(data.map(d => d.year)))
-            .filter(year => year !== 2014)
             .sort(d3.ascending);
         let selectedYear = years[0];
 
@@ -43,13 +43,12 @@ const loadFirstNationsAgeChart = () => {
             let missingRecords = 0;
             const groups = statuses.map(status => {
                 const groupData = yearData.filter(d => d.status === status);
-                const group = { status };
+                const group = { status, missingHalves: {} };
 
                 ageGroups.forEach(age => {
                     const ageData = groupData.filter(d => d.ageGroup === age);
-                    halves.forEach(half => {
-                        if (!ageData.some(d => d.half === half)) missingRecords += 1;
-                    });
+                    group.missingHalves[age] = halves.filter(half => !ageData.some(d => d.half === half));
+                    missingRecords += group.missingHalves[age].length;
                     group[age] = d3.sum(ageData, d => d.hospitalisations);
                 });
 
@@ -64,8 +63,8 @@ const loadFirstNationsAgeChart = () => {
             .attr("max", years.length - 1)
             .property("value", 0)
             .property("disabled", false);
-        d3.select(".year-endpoints span:first-child").text(years[0]);
-        d3.select(".year-endpoints span:last-child").text(years[years.length - 1]);
+        yearControl.select(".year-endpoints span:first-child").text(years[0]);
+        yearControl.select(".year-endpoints span:last-child").text(years[years.length - 1]);
 
         const legendItems = d3.select("#age-legend")
             .selectAll("li")
@@ -82,8 +81,10 @@ const loadFirstNationsAgeChart = () => {
         const hideTooltip = () => tooltip.property("hidden", true);
 
         const showTooltip = (event, d) => {
+            const missing = d.data.missingHalves[d.ageGroup];
+            const coverageNote = missing.length ? `\nPartial age-group count: ${missing.join(", ")} records missing.` : "";
             tooltip
-                .text(`${d.data.status} · ${selectedYear}\nAge ${d.ageGroup}: ${formatCount(d.count)} hospitalisations\n${formatShare(d[1] - d[0])} of this population's total`)
+                .text(`${d.data.status} · ${selectedYear}\nAge ${d.ageGroup}: ${formatCount(d.count)} hospitalisations\n${formatShare(d[1] - d[0])} of this population's recorded total${coverageNote}`)
                 .property("hidden", false);
 
             // Use the segment position for both mouse and keyboard users.
@@ -99,13 +100,12 @@ const loadFirstNationsAgeChart = () => {
             tooltip.style("left", `${left}px`).style("top", `${top}px`);
         };
 
-        const drawChart = () => {
+        const drawChart = (animate = false) => {
             hideTooltip();
             yearOutput.text(selectedYear);
             slider.attr("aria-valuetext", String(selectedYear));
 
             const current = annualData.get(selectedYear);
-            const complete = current && current.missingRecords === 0;
             const viewWidth = chart.node().clientWidth;
             const compact = viewWidth < 600;
             const viewHeight = 290;
@@ -120,9 +120,11 @@ const loadFirstNationsAgeChart = () => {
                 .attr("role", "group")
                 .attr("aria-labelledby", "age-chart-heading")
                 .attr("aria-describedby", "age-chart-summary age-chart-note");
-            svg.selectAll("*").remove();
-
-            const plot = svg.append("g")
+            // Keep the existing chart elements so segments can move between years.
+            const plot = svg.selectAll(".age-plot")
+                .data([null])
+                .join("g")
+                .attr("class", "age-plot")
                 .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
             const xScale = d3.scaleLinear().domain([0, 1]).range([0, innerWidth]);
@@ -132,18 +134,24 @@ const loadFirstNationsAgeChart = () => {
                 .padding(0.4);
             const ticks = compact ? [0, 0.5, 1] : d3.range(0, 1.01, 0.2);
 
-            plot.append("g")
+            plot.selectAll(".age-grid")
+                .data([null])
+                .join("g")
                 .attr("class", "age-grid")
                 .attr("transform", `translate(0, ${innerHeight})`)
                 .call(d3.axisBottom(xScale).tickValues(ticks).tickSize(-innerHeight).tickFormat(""))
                 .call(g => g.select(".domain").remove());
 
-            plot.append("g")
+            plot.selectAll(".age-axis")
+                .data([null])
+                .join("g")
                 .attr("class", "age-axis")
                 .attr("transform", `translate(0, ${innerHeight})`)
                 .call(d3.axisBottom(xScale).tickValues(ticks).tickFormat(d3.format(".0%")));
 
-            const labels = plot.append("g")
+            const labels = plot.selectAll(".age-population-labels")
+                .data([null])
+                .join("g")
                 .attr("class", "age-population-labels")
                 .selectAll("text")
                 .data(statuses)
@@ -163,25 +171,28 @@ const loadFirstNationsAgeChart = () => {
                     .text(line => line);
             });
 
-            svg.append("text")
+            svg.selectAll(".age-axis-label")
+                .data([null])
+                .join("text")
                 .attr("class", "age-axis-label")
                 .attr("x", compact ? viewWidth / 2 : margin.left + innerWidth / 2)
                 .attr("y", viewHeight - 12)
                 .attr("text-anchor", "middle")
                 .text(compact ? "Share of hospitalisations" : "Share of hospitalisations within each population");
 
-            if (!complete) {
+            if (!current) {
+                plot.selectAll(".age-series").remove();
                 summary.text(`${selectedYear}: annual comparison unavailable.`);
                 note.classed("chart-note-warning", true)
-                    .text(`${selectedYear} has ${current ? current.missingRecords : 24} missing half-year age-group records. Bars are omitted because complete annual percentages cannot be calculated. Missing records are not treated as zero.`);
+                    .text(`No records are available for ${selectedYear}.`);
                 return;
             }
 
             const stack = d3.stack().keys(ageGroups).offset(d3.stackOffsetExpand);
             const series = stack(current.groups);
 
-            plot.selectAll(".age-series")
-                .data(series)
+            const segments = plot.selectAll(".age-series")
+                .data(series, d => d.key)
                 .join("g")
                 .attr("class", "age-series")
                 .attr("fill", d => colours(d.key))
@@ -190,12 +201,10 @@ const loadFirstNationsAgeChart = () => {
                     segment.ageGroup = series.key;
                     segment.count = segment.data[series.key];
                     return segment;
-                }))
+                }), d => d.data.status)
                 .join("rect")
                 .attr("class", "age-segment")
-                .attr("x", d => xScale(d[0]))
                 .attr("y", d => yScale(d.data.status))
-                .attr("width", d => Math.max(0, xScale(d[1]) - xScale(d[0])))
                 .attr("height", yScale.bandwidth())
                 .attr("tabindex", 0)
                 .attr("role", "img")
@@ -204,19 +213,32 @@ const loadFirstNationsAgeChart = () => {
                 .on("pointerleave blur", hideTooltip)
                 .on("keydown", event => { if (event.key === "Escape") hideTooltip(); });
 
-            summary.text(`${selectedYear} totals — ${current.groups.map(group => `${group.status}: ${formatCount(group.total)} hospitalisations`).join("; ")}.`);
-            note.classed("chart-note-warning", false)
-                .text("Move the year slider to compare years. Hover over or focus a segment to see its count and percentage.");
+            // Rapid slider changes continue from the current positions without queuing.
+            segments.interrupt("age-year");
+            const positions = animate && !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+                ? segments.transition("age-year").duration(450).ease(d3.easeCubicInOut)
+                : segments;
+
+            positions
+                .attr("x", d => xScale(d[0]))
+                .attr("width", d => Math.max(0, xScale(d[1]) - xScale(d[0])));
+
+            const totalLabel = current.missingRecords ? "totals from available records" : "totals";
+            summary.text(`${selectedYear} ${totalLabel} — ${current.groups.map(group => `${group.status}: ${formatCount(group.total)} hospitalisations`).join("; ")}.`);
+            note.classed("chart-note-warning", current.missingRecords > 0)
+                .text(current.missingRecords
+                    ? `${selectedYear} is incomplete: ${current.missingRecords} half-year age-group records are missing. Bars and percentages use only the available records, not complete annual totals. Hover over or focus a segment for details.`
+                    : "Move the year slider to compare years. Hover over or focus a segment to see its count and percentage.");
         };
 
         slider.on("input", event => {
-            // Slider positions map to the available years, skipping 2014.
+            // Slider positions map to the available years in chronological order.
             selectedYear = years[+event.target.value];
-            drawChart();
+            drawChart(true);
         });
 
         drawChart();
-        const resizeObserver = new ResizeObserver(drawChart);
+        const resizeObserver = new ResizeObserver(() => drawChart());
         resizeObserver.observe(chart.node());
     }).catch(error => {
         console.error("Unable to load the age distribution chart:", error);
