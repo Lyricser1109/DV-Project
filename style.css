@@ -533,7 +533,7 @@ footer p {
   font-size: 14px;
 }
 
-/* Q2 chart and question navigation. Keep this file after style.css. */
+/* Q2 chart and question navigation */
 .question-jumps {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -561,9 +561,9 @@ footer p {
 .question-jumps a:hover { color: white; background: var(--accent); }
 .question-jump-pending { color: var(--muted); background: #f3f5f7; }
 .question-jump-pending small { margin-top: 3px; font-size: 11px; font-weight: 400; }
-#q2, #q4, #q5 { scroll-margin-top: 24px; }
-#q2:target, #q4:target, #q5:target { border-color: var(--accent); }
-#q2:focus-visible, #q4:focus-visible, #q5:focus-visible { outline: 3px solid #db9a24; }
+#q1, #q2, #q4, #q5 { scroll-margin-top: 24px; }
+#q1:target, #q2:target, #q4:target, #q5:target { border-color: var(--accent); }
+#q1:focus-visible, #q2:focus-visible, #q4:focus-visible, #q5:focus-visible { outline: 3px solid #db9a24; }
 .q2-legend {
   display: flex;
   flex-wrap: wrap;
@@ -631,3 +631,205 @@ footer p {
   .q2-legend { gap: 8px 14px; font-size: 13px; }
 }
 
+/* Q1 national trend dash timeline */
+
+.q1-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 20px;
+  margin-bottom: 16px;
+}
+
+.q1-mode {
+  display: inline-flex;
+}
+
+.q1-button {
+  padding: 8px 18px;
+  color: var(--accent);
+  background: var(--surface);
+  border: 1px solid var(--accent);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.q1-mode .q1-button:first-child {
+  border-radius: 6px 0 0 6px;
+}
+
+.q1-mode .q1-button:last-child {
+  border-radius: 0 6px 6px 0;
+  border-left: 0;
+}
+
+.q1-button[aria-pressed="true"] {
+  color: #ffffff;
+  background: var(--accent);
+}
+
+.q1-play {
+  border-radius: 6px;
+}
+
+.q1-button:focus-visible,
+.q1-arc-toggle input:focus-visible {
+  outline: 3px solid #db9a24;
+  outline-offset: 3px;
+}
+
+.q1-arc-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.q1-arc-toggle input {
+  accent-color: var(--accent);
+}
+
+.q1-scroll {
+  overflow-x: auto;
+}
+
+.q1-wrap {
+  position: relative;
+  min-width: 720px;
+}
+
+.q1-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  font-family: inherit;
+}
+
+.q1-svg:focus-visible {
+  outline: 3px solid #db9a24;
+  outline-offset: 4px;
+}
+
+.q1-band {
+  fill: #fff5df;
+}
+
+.q1-band-label {
+  fill: #694d16;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.q1-grid line {
+  stroke: var(--border);
+}
+
+.q1-baseline {
+  stroke: var(--muted);
+}
+
+.q1-axis-text {
+  fill: var(--muted);
+  font-size: 14px;
+}
+
+.q1-dash {
+  stroke: var(--accent);
+}
+
+.q1-dash-2020 {
+  stroke: #b17a17;
+}
+
+.q1-dash-active {
+  stroke: var(--navy);
+}
+
+.q1-marker {
+  stroke: var(--navy);
+  stroke-width: 1.5;
+  pointer-events: none;
+}
+
+.q1-arc {
+  fill: none;
+  stroke-width: 1.2;
+  stroke-opacity: 0.3;
+  pointer-events: none;
+}
+
+.q1-arc-up {
+  stroke: var(--accent);
+}
+
+.q1-arc-down {
+  stroke: #c0392b;
+}
+
+.q1-arc-active {
+  stroke-width: 2.5;
+  stroke-opacity: 1;
+}
+
+.q1-tooltip {
+  position: absolute;
+  z-index: 5;
+  max-width: 280px;
+  padding: 10px 14px;
+  color: #ffffff;
+  background: var(--navy);
+  border-radius: 5px;
+  font-size: 14px;
+  line-height: 1.5;
+  white-space: pre-line;
+  pointer-events: none;
+}
+
+.q1-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 20px;
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.q1-key {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.q1-swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 2px;
+}
+
+.q1-swatch-up {
+  background: var(--accent);
+}
+
+.q1-swatch-down {
+  background: #c0392b;
+}
+
+.q1-swatch-2020 {
+  background: #b17a17;
+}
+
+.q1-selection {
+  min-height: 3em;
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .q1-button {
+    transition: none;
+  }
+}
