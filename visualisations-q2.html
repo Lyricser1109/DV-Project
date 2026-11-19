@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Q2 Road users | Road Injury Data</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="question-pages.css">
+  <script src="question-navigation.js"></script>
+  <script src="navigation.js" defer></script>
+  <script src="https://d3js.org/d3.v7.min.js" defer></script>
+  <script src="q2-road-users.js" defer></script>
+</head>
+<body class="question-view">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <header class="site-header">
+    <div class="container nav-inner">
+      <a class="site-name" href="index.html">Road Injury Data<span>Australia &#183; 2011&#8211;2021</span></a>
+      <nav aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="visualisations.html" aria-current="page">Visualisations</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle" type="button" aria-expanded="false" aria-controls="documentation-menu">Acknowledgements</button>
+          <div id="documentation-menu" class="nav-dropdown-panel" hidden>
+            <a href="acknowledgements.html">Acknowledgements</a>
+            <a href="data-processing.html">Data processing</a>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <div class="page-header">
+      <div class="container">
+        <p class="eyebrow">Explore the evidence</p>
+        <h1>Visualisations</h1>
+        <p>Explore road traffic injury patterns through the team's five research questions.</p>
+      </div>
+    </div>
+    <div class="container page-content">
+      <div class="question-stage">
+        <div class="question-toolbar">
+          <p class="question-position">Question <strong>02<span> / 05</span></strong></p>
+          <nav class="question-progress" aria-label="Research questions">
+              <a href="visualisations.html" aria-label="Question 1: National trend"><span>Q1</span><span class="question-progress-label">National trend</span></a>
+              <a href="visualisations-q2.html" aria-current="page" aria-label="Question 2: Road users"><span>Q2</span><span class="question-progress-label">Road users</span></a>
+              <a href="visualisations-q3.html" aria-label="Question 3: Age and sex"><span>Q3</span><span class="question-progress-label">Age &amp; sex</span></a>
+              <a href="visualisations-q4.html" aria-label="Question 4: Jurisdictions"><span>Q4</span><span class="question-progress-label">Jurisdictions</span></a>
+              <a href="visualisations-q5.html" aria-label="Question 5: First Nations"><span>Q5</span><span class="question-progress-label">First Nations</span></a>
+          </nav>
+          <nav class="question-arrows" aria-label="Question navigation">
+            <a class="question-arrow" href="visualisations.html" aria-label="Previous question: Q1 National trend">&#8592;</a>
+            <a class="question-arrow" href="visualisations-q3.html" aria-label="Next question: Q3 Age and sex">&#8594;</a>
+          </nav>
+        </div>
+
+        <article id="q2" class="chart-card" aria-labelledby="road-user-heading" tabindex="-1">
+          <h3 id="road-user-heading">Q2 &#8212; Hospitalised road injuries by road user group</h3>
+          <p class="chart-introduction">
+            Compare annual hospitalisation counts for five road user groups from 2011 to 2021.
+            Each band's thickness represents its group's count; the top edge shows the annual total.
+            Hover over a year, focus it with Tab, or choose a year below to inspect exact values.
+          </p>
+
+          <ul id="q2-legend" class="q2-legend" aria-label="Road user groups"></ul>
+          <div class="q2-controls">
+            <label for="q2-year">Inspect year</label>
+            <select id="q2-year" disabled><option value="2021">2021</option></select>
+          </div>
+
+          <div id="q2-road-users">
+            <p class="chart-loading">Loading road user data&#8230;</p>
+          </div>
+          <p id="q2-selection" class="q2-selection" role="status"></p>
+
+          <div id="q2-table-wrap" class="q2-table-wrap" hidden>
+            <table class="q2-table">
+              <caption id="q2-table-caption">Road user counts</caption>
+              <thead>
+                <tr><th scope="col">Road user group</th><th scope="col">Hospitalisations</th><th scope="col">Share of total</th><th scope="col">Change since 2011</th></tr>
+              </thead>
+              <tbody id="q2-table-body"></tbody>
+              <tfoot><tr><th scope="row">Total</th><td id="q2-total"></td><td>100%</td><td id="q2-total-change"></td></tr></tfoot>
+            </table>
+          </div>
+
+          <p id="q2-finding" class="chart-summary"></p>
+          <p class="chart-note">
+            Counts describe hospitalisations, not population-adjusted risk. Changes in hospital admission
+            criteria in Victoria (2012) and NSW (2017) affect comparisons over time.
+            &#8220;Other&#8221; includes bus occupants, pick-up truck or van occupants, heavy transport users and other or unknown road users.
+          </p>
+          <p class="chart-source">
+            Source: BITRE national hospitalised injury data, 2011&#8211;2021.
+            Annual counts are summed from the supplied traffic-only data, using the Hospitalisations field.
+          </p>
+        </article>
+
+        <nav class="question-pager" aria-label="Continue through the research questions">
+          <a class="question-page-link" href="visualisations.html"><span class="question-page-arrow" aria-hidden="true">&#8592;</span><span><small>Previous question</small><strong>Q1 &#183; National trend</strong></span></a>
+          <a class="question-page-link question-page-next" href="visualisations-q3.html"><span class="question-page-arrow" aria-hidden="true">&#8594;</span><span><small>Next question</small><strong>Q3 &#183; Age &amp; sex</strong></span></a>
+        </nav>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>Group 38 &#183; Daheer, Leroy and Balqis</p>
+      <p>COS30045 Data Visualisation &#183; Semester 2, 2026</p>
+    </div>
+  </footer>
+</body>
+</html>

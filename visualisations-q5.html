@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Q5 First Nations | Road Injury Data</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="question-pages.css">
+  <script src="question-navigation.js"></script>
+  <script src="navigation.js" defer></script>
+  <script src="https://d3js.org/d3.v7.min.js" defer></script>
+  <script src="first-nations-age.js" defer></script>
+</head>
+<body class="question-view">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <header class="site-header">
+    <div class="container nav-inner">
+      <a class="site-name" href="index.html">Road Injury Data<span>Australia &#183; 2011&#8211;2021</span></a>
+      <nav aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="visualisations.html" aria-current="page">Visualisations</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle" type="button" aria-expanded="false" aria-controls="documentation-menu">Acknowledgements</button>
+          <div id="documentation-menu" class="nav-dropdown-panel" hidden>
+            <a href="acknowledgements.html">Acknowledgements</a>
+            <a href="data-processing.html">Data processing</a>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <div class="page-header">
+      <div class="container">
+        <p class="eyebrow">Explore the evidence</p>
+        <h1>Visualisations</h1>
+        <p>Explore road traffic injury patterns through the team's five research questions.</p>
+      </div>
+    </div>
+    <div class="container page-content">
+      <div class="question-stage">
+        <div class="question-toolbar">
+          <p class="question-position">Question <strong>05<span> / 05</span></strong></p>
+          <nav class="question-progress" aria-label="Research questions">
+              <a href="visualisations.html" aria-label="Question 1: National trend"><span>Q1</span><span class="question-progress-label">National trend</span></a>
+              <a href="visualisations-q2.html" aria-label="Question 2: Road users"><span>Q2</span><span class="question-progress-label">Road users</span></a>
+              <a href="visualisations-q3.html" aria-label="Question 3: Age and sex"><span>Q3</span><span class="question-progress-label">Age &amp; sex</span></a>
+              <a href="visualisations-q4.html" aria-label="Question 4: Jurisdictions"><span>Q4</span><span class="question-progress-label">Jurisdictions</span></a>
+              <a href="visualisations-q5.html" aria-current="page" aria-label="Question 5: First Nations"><span>Q5</span><span class="question-progress-label">First Nations</span></a>
+          </nav>
+          <nav class="question-arrows" aria-label="Question navigation">
+            <a class="question-arrow" href="visualisations-q4.html" aria-label="Previous question: Q4 Jurisdictions">&#8592;</a>
+            <span class="question-arrow is-disabled" aria-hidden="true">&#8594;</span>
+          </nav>
+        </div>
+
+        <article id="q5" class="chart-card" aria-labelledby="age-chart-heading" tabindex="-1">
+          <h3 id="age-chart-heading">Q5 &#8212; Age distribution of traffic injury hospitalisations</h3>
+          <p class="chart-introduction">
+            Compare First Nations people and Non-Indigenous people for a selected year.
+            Each coloured segment shows an age group's share of that population's
+            recorded hospitalisations. Each bar adds to 100% of the available records.
+          </p>
+
+          <div class="year-control">
+            <label for="age-year">Year <output id="age-year-value" for="age-year">2011</output></label>
+            <input id="age-year" type="range" min="0" max="10" step="1" value="0" disabled>
+            <div class="year-endpoints"><span>2011</span><span>2021</span></div>
+            <small>2014 includes the available records; some half-year age-group records are missing.</small>
+          </div>
+
+          <ul id="age-legend" class="age-legend" aria-label="Age groups"></ul>
+          <div id="age-chart" class="stacked-chart">
+            <p class="chart-loading">Loading chart data&#8230;</p>
+            <div id="age-tooltip" class="chart-tooltip" role="tooltip" hidden></div>
+          </div>
+          <p id="age-chart-summary" class="chart-summary" role="status"></p>
+          <p id="age-chart-note" class="chart-note">
+            Move the year slider to compare years. Hover over or focus a segment to see its count and percentage.
+          </p>
+        </article>
+
+        <nav class="question-pager" aria-label="Continue through the research questions">
+          <a class="question-page-link" href="visualisations-q4.html"><span class="question-page-arrow" aria-hidden="true">&#8592;</span><span><small>Previous question</small><strong>Q4 &#183; Jurisdictions</strong></span></a>
+          <span class="question-page-link is-disabled"><span class="question-page-arrow" aria-hidden="true">&#8594;</span><span><small>Next</small><strong>End of questions</strong></span></span>
+        </nav>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>Group 38 &#183; Daheer, Leroy and Balqis</p>
+      <p>COS30045 Data Visualisation &#183; Semester 2, 2026</p>
+    </div>
+  </footer>
+</body>
+</html>

@@ -3,20 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Visualisations | Road Injury Data</title>
+  <title>Q1 National trend | Road Injury Data</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="question-pages.css">
+  <script src="question-navigation.js"></script>
   <script src="navigation.js" defer></script>
   <script src="https://d3js.org/d3.v7.min.js" defer></script>
-  <script src="script.js" defer></script>
-  <script src="q2-road-users.js" defer></script>
-  <script src="first-nations-age.js" defer></script>
-  <script src="q4-state-heatmap.js" defer></script>
   <script src="q1-national-trend.js" defer></script>
-  <script src="q3-butterfly.js" defer></script>
-  <script src="q3-overview.js" defer></script>
-
 </head>
-<body>
+<body class="question-view">
   <a class="skip-link" href="#main-content">Skip to content</a>
   <header class="site-header">
     <div class="container nav-inner">
@@ -44,17 +39,21 @@
       </div>
     </div>
     <div class="container page-content">
-      <section aria-labelledby="charts-heading">
-        <h2 id="charts-heading">Visualisation Charts</h2>
-        <p>Choose a question to jump to its chart, then explore the values and interpretation notes.</p>
-
-        <nav class="question-jumps" aria-label="Jump to a research question">
-          <a href="#q1">Q1 &#183; National trend</a>
-          <a href="#q2">Q2 &#183; Road users</a>
-          <a href="#q3">Q3 &#183; Age &amp; sex</a>
-          <a href="#q4">Q4 &#183; Jurisdictions</a>
-          <a href="#q5">Q5 &#183; First Nations</a>
-        </nav>
+      <div class="question-stage">
+        <div class="question-toolbar">
+          <p class="question-position">Question <strong>01<span> / 05</span></strong></p>
+          <nav class="question-progress" aria-label="Research questions">
+              <a href="visualisations.html" aria-current="page" aria-label="Question 1: National trend"><span>Q1</span><span class="question-progress-label">National trend</span></a>
+              <a href="visualisations-q2.html" aria-label="Question 2: Road users"><span>Q2</span><span class="question-progress-label">Road users</span></a>
+              <a href="visualisations-q3.html" aria-label="Question 3: Age and sex"><span>Q3</span><span class="question-progress-label">Age &amp; sex</span></a>
+              <a href="visualisations-q4.html" aria-label="Question 4: Jurisdictions"><span>Q4</span><span class="question-progress-label">Jurisdictions</span></a>
+              <a href="visualisations-q5.html" aria-label="Question 5: First Nations"><span>Q5</span><span class="question-progress-label">First Nations</span></a>
+          </nav>
+          <nav class="question-arrows" aria-label="Question navigation">
+            <span class="question-arrow is-disabled" aria-hidden="true">&#8592;</span>
+            <a class="question-arrow" href="visualisations-q2.html" aria-label="Next question: Q2 Road users">&#8594;</a>
+          </nav>
+        </div>
 
         <article id="q1" tabindex="-1" class="chart-card" aria-labelledby="q1-chart-heading">
       <h3 id="q1-chart-heading">
@@ -89,132 +88,11 @@
       </p>
     </article>
 
-        <article id="q2" class="chart-card" aria-labelledby="road-user-heading" tabindex="-1">
-          <h3 id="road-user-heading">Q2 &#8212; Hospitalised road injuries by road user group</h3>
-          <p class="chart-introduction">
-            Compare annual hospitalisation counts for five road user groups from 2011 to 2021.
-            Each band's thickness represents its group's count; the top edge shows the annual total.
-            Hover over a year, focus it with Tab, or choose a year below to inspect exact values.
-          </p>
-
-          <ul id="q2-legend" class="q2-legend" aria-label="Road user groups"></ul>
-          <div class="q2-controls">
-            <label for="q2-year">Inspect year</label>
-            <select id="q2-year" disabled><option value="2021">2021</option></select>
-          </div>
-
-          <div id="q2-road-users">
-            <p class="chart-loading">Loading road user data&#8230;</p>
-          </div>
-          <p id="q2-selection" class="q2-selection" role="status"></p>
-
-          <div id="q2-table-wrap" class="q2-table-wrap" hidden>
-            <table class="q2-table">
-              <caption id="q2-table-caption">Road user counts</caption>
-              <thead>
-                <tr><th scope="col">Road user group</th><th scope="col">Hospitalisations</th><th scope="col">Share of total</th><th scope="col">Change since 2011</th></tr>
-              </thead>
-              <tbody id="q2-table-body"></tbody>
-              <tfoot><tr><th scope="row">Total</th><td id="q2-total"></td><td>100%</td><td id="q2-total-change"></td></tr></tfoot>
-            </table>
-          </div>
-
-          <p id="q2-finding" class="chart-summary"></p>
-          <p class="chart-note">
-            Counts describe hospitalisations, not population-adjusted risk. Changes in hospital admission
-            criteria in Victoria (2012) and NSW (2017) affect comparisons over time.
-            &#8220;Other&#8221; includes bus occupants, pick-up truck or van occupants, heavy transport users and other or unknown road users.
-          </p>
-          <p class="chart-source">
-            Source: BITRE national hospitalised injury data, 2011&#8211;2021.
-            Annual counts are summed from the supplied traffic-only data, using the Hospitalisations field.
-          </p>
-        </article>
-
-
-        <article id="q3" class="chart-card" aria-labelledby="sex-age-heading" tabindex="-1">
-          <h3 id="sex-age-heading">Q3 &#8212; Comparison of hospitalisations by sex and age</h3>
-          <p class="chart-introduction">
-            Compare recorded traffic injury hospitalisations across 2011–2021 combined.
-            Male counts extend to the left and female counts to the right, using the same scale.
-            Age groups appear in the centre. Hover over or focus a bar for its count
-            and percentage of the combined total across both sexes and all displayed age groups.
-          </p>
-          <div class="sex-overview" role="group" aria-labelledby="sex-overview-heading">
-            <div id="sex-overview-chart" class="sex-overview-chart">
-              <p class="chart-loading">Loading overall totals…</p>
-              <div id="sex-overview-tooltip" class="chart-tooltip" role="tooltip" hidden></div>
-            </div>
-          </div>
-          <div id="sex-age-chart" class="butterfly-chart">
-            <p class="chart-loading">Loading age and sex data…</p>
-            <div id="sex-age-tooltip" class="chart-tooltip" role="tooltip" hidden></div>
-          </div>
-          <p id="sex-age-summary" class="chart-summary" role="status"></p>
-          <p id="sex-age-note" class="chart-note">
-            Counts describe recorded hospitalisations rather than population injury rates.
-          </p>
-        </article>
-
-        <article id="q4" class="chart-card" aria-labelledby="state-chart-heading" tabindex="-1">
-      <h3 id="state-chart-heading">
-        Q4 &#8212; Hospitalised road injuries across states and territories
-      </h3>
-
-      <p class="chart-introduction">
-        Compare annual hospitalisation counts across eight jurisdictions
-        from 2011 to 2021. Darker cells represent higher counts.
-        Hover over or keyboard-focus a cell to inspect its value.
-      </p>
-
-      <div id="state-heatmap">
-        <p class="chart-loading">Loading state and territory data&#8230;</p>
+        <nav class="question-pager" aria-label="Continue through the research questions">
+          <span class="question-page-link is-disabled"><span class="question-page-arrow" aria-hidden="true">&#8592;</span><span><small>Previous</small><strong>First question</strong></span></span>
+          <a class="question-page-link question-page-next" href="visualisations-q2.html"><span class="question-page-arrow" aria-hidden="true">&#8594;</span><span><small>Next question</small><strong>Q2 &#183; Road users</strong></span></a>
+        </nav>
       </div>
-
-      <p class="chart-summary">
-        Queensland recorded 6,322 hospitalisations in 2011 and 10,447
-        in 2021. Victoria recorded the highest count in 2021, at 11,130.
-      </p>
-
-      <p class="chart-note">
-        Counts describe recorded hospitalisation burden. Population sizes
-        differ across jurisdictions. NSW has a series break from June 2017
-        and Victoria from 2012, so figures across these breaks are not
-        directly comparable.
-      </p>
-
-      <p class="chart-source">
-        Source: BITRE State and Territory Hospitalised Injury Data,
-        2011&#8211;2021.
-      </p>
-    </article>
-        
-        <article id="q5" class="chart-card" aria-labelledby="age-chart-heading" tabindex="-1">
-          <h3 id="age-chart-heading">Q5 &#8212; Age distribution of traffic injury hospitalisations</h3>
-          <p class="chart-introduction">
-            Compare First Nations people and Non-Indigenous people for a selected year.
-            Each coloured segment shows an age group's share of that population's
-            recorded hospitalisations. Each bar adds to 100% of the available records.
-          </p>
-
-          <div class="year-control">
-            <label for="age-year">Year <output id="age-year-value" for="age-year">2011</output></label>
-            <input id="age-year" type="range" min="0" max="10" step="1" value="0" disabled>
-            <div class="year-endpoints"><span>2011</span><span>2021</span></div>
-            <small>2014 includes the available records; some half-year age-group records are missing.</small>
-          </div>
-
-          <ul id="age-legend" class="age-legend" aria-label="Age groups"></ul>
-          <div id="age-chart" class="stacked-chart">
-            <p class="chart-loading">Loading chart data&#8230;</p>
-            <div id="age-tooltip" class="chart-tooltip" role="tooltip" hidden></div>
-          </div>
-          <p id="age-chart-summary" class="chart-summary" role="status"></p>
-          <p id="age-chart-note" class="chart-note">
-            Move the year slider to compare years. Hover over or focus a segment to see its count and percentage.
-          </p>
-        </article>
-      </section>
     </div>
   </main>
 
