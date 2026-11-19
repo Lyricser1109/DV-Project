@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Visualisations | Road Injury Data</title>
   <link rel="stylesheet" href="style.css">
+  <script src="navigation.js" defer></script>
   <script src="https://d3js.org/d3.v7.min.js" defer></script>
   <script src="script.js" defer></script>
   <script src="first-nations-age.js" defer></script>
@@ -21,7 +22,13 @@
       <nav aria-label="Main navigation">
         <a href="index.html">Home</a>
         <a href="visualisations.html" aria-current="page">Visualisations</a>
-        <a href="acknowledgements.html">Acknowledgements</a>
+        <div class="nav-dropdown">
+          <button class="nav-dropdown-toggle" type="button" aria-expanded="false" aria-controls="documentation-menu">Acknowledgements</button>
+          <div id="documentation-menu" class="nav-dropdown-panel" hidden>
+            <a href="acknowledgements.html">Acknowledgements</a>
+            <a href="data-processing.html">Data processing</a>
+          </div>
+        </div>
       </nav>
     </div>
   </header>
