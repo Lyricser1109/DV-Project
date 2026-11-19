@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Visualisations | Road Injury Data</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://d3js.org/d3.v7.min.js" defer></script>
+  <script src="script.js" defer></script>
+  <script src="q2-road-users.js" defer></script>
+  <script src="first-nations-age.js" defer></script>
+  <script src="q4-state-heatmap.js" defer></script>
+
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <header class="site-header">
+    <div class="container nav-inner">
+      <a class="site-name" href="index.html">Road Injury Data<span>Australia · 2011–2021</span></a>
+      <nav aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="visualisations.html" aria-current="page">Visualisations</a>
+        <a href="acknowledgements.html">Acknowledgements</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <div class="page-header">
+      <div class="container">
+        <p class="eyebrow">Explore the evidence</p>
+        <h1>Visualisations</h1>
+        <p>Explore road traffic injury patterns through the team's five research questions.</p>
+      </div>
+    </div>
+    <div class="container page-content">
+      <section aria-labelledby="charts-heading">
+        <h2 id="charts-heading">Visualisation Charts</h2>
+        <p>Choose a question to jump to its chart, then explore the values and interpretation notes.</p>
+
+        <nav class="question-jumps" aria-label="Jump to a research question">
+          <span class="question-jump-pending" role="link" aria-disabled="true">Q1 · National trend<small>Coming soon</small></span>
+          <a href="#q2">Q2 · Road users</a>
+          <span class="question-jump-pending" role="link" aria-disabled="true">Q3 · Age &amp; sex<small>Coming soon</small></span>
+          <a href="#q4">Q4 · Jurisdictions</a>
+          <a href="#q5">Q5 · First Nations</a>
+        </nav>
+
+        <article id="q2" class="chart-card" aria-labelledby="road-user-heading" tabindex="-1">
+          <h3 id="road-user-heading">Q2 — Hospitalised road injuries by road user group</h3>
+          <p class="chart-introduction">
+            Compare annual hospitalisation counts for five road user groups from 2011 to 2021.
+            Each band's thickness represents its group's count; the top edge shows the annual total.
+            Hover over a year, focus it with Tab, or choose a year below to inspect exact values.
+          </p>
+
+          <ul id="q2-legend" class="q2-legend" aria-label="Road user groups"></ul>
+          <div class="q2-controls">
+            <label for="q2-year">Inspect year</label>
+            <select id="q2-year" disabled><option value="2021">2021</option></select>
+          </div>
+
+          <div id="q2-road-users">
+            <p class="chart-loading">Loading road user data…</p>
+          </div>
+          <p id="q2-selection" class="q2-selection" role="status"></p>
+
+          <div id="q2-table-wrap" class="q2-table-wrap" hidden>
+            <table class="q2-table">
+              <caption id="q2-table-caption">Road user counts</caption>
+              <thead>
+                <tr><th scope="col">Road user group</th><th scope="col">Hospitalisations</th><th scope="col">Share of total</th><th scope="col">Change since 2011</th></tr>
+              </thead>
+              <tbody id="q2-table-body"></tbody>
+              <tfoot><tr><th scope="row">Total</th><td id="q2-total"></td><td>100%</td><td id="q2-total-change"></td></tr></tfoot>
+            </table>
+          </div>
+
+          <p id="q2-finding" class="chart-summary"></p>
+          <p class="chart-note">
+            Counts describe hospitalisations, not population-adjusted risk. Changes in hospital admission
+            criteria in Victoria (2012) and NSW (2017) affect comparisons over time.
+            “Other” includes bus occupants, pick-up truck or van occupants, heavy transport users and other or unknown road users.
+          </p>
+          <p class="chart-source">
+            Source: BITRE national hospitalised injury data, 2011–2021.
+            Annual counts are summed from the supplied traffic-only data, using the Hospitalisations field.
+          </p>
+        </article>
+
+
+        <article id="q4" class="chart-card" aria-labelledby="state-chart-heading" tabindex="-1">
+      <h3 id="state-chart-heading">
+        Q4 — Hospitalised road injuries across states and territories
+      </h3>
+
+      <p class="chart-introduction">
+        Compare annual hospitalisation counts across eight jurisdictions
+        from 2011 to 2021. Darker cells represent higher counts.
+        Hover over or keyboard-focus a cell to inspect its value.
+      </p>
+
+      <div id="state-heatmap">
+        <p class="chart-loading">Loading state and territory data…</p>
+      </div>
+
+      <p class="chart-summary">
+        Queensland recorded 6,322 hospitalisations in 2011 and 10,447
+        in 2021. Victoria recorded the highest count in 2021, at 11,130.
+      </p>
+
+      <p class="chart-note">
+        Counts describe recorded hospitalisation burden. Population sizes
+        differ across jurisdictions. NSW has a series break from June 2017
+        and Victoria from 2012, so figures across these breaks are not
+        directly comparable.
+      </p>
+
+      <p class="chart-source">
+        Source: BITRE State and Territory Hospitalised Injury Data,
+        2011–2021.
+      </p>
+    </article>
+        
+        <article id="q5" class="chart-card" aria-labelledby="age-chart-heading" tabindex="-1">
+          <h3 id="age-chart-heading">Q5 — Age distribution of traffic injury hospitalisations</h3>
+          <p class="chart-introduction">
+            Compare First Nations people and Non-Indigenous people for a selected year.
+            Each coloured segment shows an age group's share of that population's
+            recorded hospitalisations. Each complete bar adds to 100%.
+          </p>
+
+          <div class="year-control">
+            <label for="age-year">Year <output id="age-year-value" for="age-year">2011</output></label>
+            <input id="age-year" type="range" min="0" max="9" step="1" value="0" disabled>
+            <div class="year-endpoints"><span>2011</span><span>2021</span></div>
+            <small>2014 is omitted because its records are incomplete.</small>
+          </div>
+
+          <ul id="age-legend" class="age-legend" aria-label="Age groups"></ul>
+          <div id="age-chart" class="stacked-chart">
+            <p class="chart-loading">Loading chart data…</p>
+            <div id="age-tooltip" class="chart-tooltip" role="tooltip" hidden></div>
+          </div>
+          <p id="age-chart-summary" class="chart-summary" role="status"></p>
+          <p id="age-chart-note" class="chart-note">
+            Move the year slider to compare years. Hover over or focus a segment to see its count and percentage.
+          </p>
+        </article>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>Group 38 · Daheer, Leroy and Balqis</p>
+      <p>COS30045 Data Visualisation · Semester 2, 2026</p>
+    </div>
+  </footer>
+</body>
+</html>
